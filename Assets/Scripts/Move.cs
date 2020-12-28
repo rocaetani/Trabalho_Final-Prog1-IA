@@ -16,7 +16,7 @@ public class Move : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public float walkSpeed = 5f;
+    public float walkSpeed = 10f;
     Rigidbody2D rigidbody;
     float deltaX = 0;
     private int xpos = 10;
@@ -35,12 +35,23 @@ public class Move : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetAxis("Horizontal") >= 1f)
+        if (Input.GetAxis("Horizontal") > 0f)
         {
             _currentTarget = new Vector3(Mathf.RoundToInt(transform.position.x + 1), transform.position.y, 0);
         }
+        if (Input.GetAxis("Horizontal") < 0f)
+        {
+            _currentTarget = new Vector3(Mathf.RoundToInt(transform.position.x - 1), transform.position.y, 0);
+        }
+        if (Input.GetAxis("Vertical") > 0f)
+        {
+            _currentTarget = new Vector3(transform.position.x, Mathf.RoundToInt(transform.position.y + 1), 0);
+        }
+        if (Input.GetAxis("Vertical") < 0f)
+        {
+            _currentTarget = new Vector3(transform.position.x, Mathf.RoundToInt(transform.position.y - 1), 0);
+        }
         
-
         Vector3 direction = _currentTarget - transform.position;
         MoveCharacter(walkSpeed * direction * Time.deltaTime);
     }
@@ -75,80 +86,5 @@ public class Move : MonoBehaviour
     
     
     
-    
-    /*
-     
-    void FixedUpdate()
-    {
-        //Feito desta maneria poruqe notei que o jogo tem um atraso a começar se mover e a velocidade do personagem é sempre constante
-        if (Input.GetAxis("Horizontal") >= 1f)
-        {
-            Vector2 vel = new Vector2(5, 0);
-            rigidbody.velocity = vel;
-        }
-        else if (!isInteger(transform.position.x))
-        {
-            if (getMantissa(transform.position.x) > 0.9f)
-            {
-                Vector2 vel = new Vector2(0, rigidbody.velocity.y);
-                rigidbody.velocity = vel;
-                transform.position = new Vector2(Mathf.RoundToInt(transform.position.x) + 1f, transform.position.y);
-            }
-            else
-            {
-                Vector2 vel = new Vector2(5, 0);
-                rigidbody.velocity = vel;
-            }
-        }
-        else
-        {
-            Vector2 vel = new Vector2(0, rigidbody.velocity.y);
-            rigidbody.velocity = vel; 
-        }
-        /*
-        else if (!isInteger(transform.position.x))
-        {
-            
-            isMoving = false;
-            newSquare = Mathf.FloorToInt(transform.position.x) + 1;
-            
-        }
-    
-            
-        
-        /*
-        if (Input.GetAxis("Horizontal") >= -1f)
-        {
-            Vector2 vel = new Vector2(deltaX, 0);
-            rigidbody.velocity = vel;
-            isMoving = Direction.Left;
-        }
-        else
-        {
-            Vector2 vel = new Vector2(0, rigidbody.velocity.y);
-            rigidbody.velocity = vel; 
-        }
-        
-
-
-
-    }
-    
-    */
-
-    bool isInteger(float value)
-    {
-        if (Mathf.RoundToInt(value) == value)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    float getMantissa(float value)
-    {
-        return value - Mathf.RoundToInt(value);
-    }
 
 }
