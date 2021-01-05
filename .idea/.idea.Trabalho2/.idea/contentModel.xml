@@ -21,6 +21,7 @@
           <e p="Bloco.cs" t="Include" />
           <e p="Move.cs" t="Include" />
           <e p="Move2.cs" t="Include" />
+          <e p="Move3.cs" t="Include" />
           <e p="ShowInputs.cs" t="Include" />
         </e>
       </e>

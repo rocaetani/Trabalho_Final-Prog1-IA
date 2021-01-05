@@ -32,10 +32,13 @@ public class Move : MonoBehaviour
     private float distanceMovedThisFrame;
     private float distanceToTarget;
     private Direction moveDirection;
+    private Vector3 _lastPosition;
+    
     void Start()
     {
         //rigidbody = GetComponent<Rigidbody2D>();
-        _currentTarget = transform.position;
+        _lastPosition = transform.position;
+        _currentTarget = _lastPosition;
         guiStyle.fontSize = 30;
         guiStyle.normal.textColor = Color.blue;
         isColiding = false;
@@ -44,6 +47,7 @@ public class Move : MonoBehaviour
         distanceMovedThisFrame = 0;
         distanceToTarget = 0;
         moveDirection = Direction.None;
+        
 
     }
 
@@ -61,15 +65,18 @@ public class Move : MonoBehaviour
     
     void Update()
     {
-        
-            if (Input.GetAxis("Horizontal") >= 1f & (moveDirection == Direction.Right || moveDirection == Direction.None))
+
+
+            if (Input.GetAxis("Horizontal") >= 1f &
+                (moveDirection == Direction.Right || moveDirection == Direction.None))
             {
                 isMoving = true;
                 moveDirection = Direction.Right;
                 _currentTarget = new Vector3(Mathf.RoundToInt(transform.position.x + 1f), transform.position.y, 0);
             }
 
-            if (Input.GetAxis("Horizontal") <= -1f & (moveDirection == Direction.Left || moveDirection == Direction.None))
+            if (Input.GetAxis("Horizontal") <= -1f &
+                (moveDirection == Direction.Left || moveDirection == Direction.None))
             {
                 isMoving = true;
                 moveDirection = Direction.Left;
@@ -89,49 +96,79 @@ public class Move : MonoBehaviour
                 moveDirection = Direction.Down;
                 _currentTarget = new Vector3(transform.position.x, Mathf.RoundToInt(transform.position.y - 1f), 0);
             }
-        
 
 
-        if (isMoving)
-        {
-            Vector3 direction = _currentTarget - transform.position;
-            distanceToTarget = direction.magnitude;
-            direction.Normalize();
-        
-            
-        
-            distanceMovedThisFrame = walkSpeed * Time.deltaTime;
-            
-            
-            if ( Mathf.Abs(Input.GetAxis("Horizontal")) < 1f & (distanceMovedThisFrame >= distanceToTarget))
+
+            if (isMoving)
             {
-                MoveCharacter(direction * distanceToTarget);
-            }
-            
-            if (_currentTarget == transform.position)//(Input.GetAxis("Horizontal") == 0 & Input.GetAxis("Vertical") == 0)
-            {
-                isMoving = false;
-                moveDirection = Direction.None;
-            }
-            else
-            {
-                MoveCharacter(distanceMovedThisFrame * direction );
-            }
+                Vector3 direction = _currentTarget - transform.position;
+                distanceToTarget = direction.magnitude;
+                direction.Normalize();
 
 
+
+                distanceMovedThisFrame = walkSpeed * Time.deltaTime;
+
+
+                if (Mathf.Abs(Input.GetAxis("Horizontal")) < 1f & (distanceMovedThisFrame >= distanceToTarget))
+                {
+                    MoveCharacter(_currentTarget, distanceToTarget);
+                }
+
+                if (_currentTarget == transform.position
+                ) //(Input.GetAxis("Horizontal") == 0 & Input.GetAxis("Vertical") == 0)
+                {
+                    isMoving = false;
+                    moveDirection = Direction.None;
+                }
+                else
+                {
+                    MoveCharacter(_currentTarget, distanceMovedThisFrame);
+                }
             
+
         }
+        /*
+        else
+        {
+            Vector3 repositionCharacter;
+            if (moveDirection == Direction.Right)
+            {
+                Debug.Log("entrou aqui ajuste colide");
+                repositionCharacter = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, 0);
+                _currentTarget = repositionCharacter;
+                PlaceCharacter(repositionCharacter);
+            }
+            
+            isColiding = false;
+        }
+        */
 
 
-        
+
+
+    }
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        isColiding = true;
+        Debug.Log(collision.transform.position);
+        _lastPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, 0);
+
     }
 
     
 
-    void MoveCharacter(Vector3 frameMovement)
+    void MoveCharacter(Vector3 target, float step)
     {
-        transform.position += frameMovement;
+        transform.position = Vector3.MoveTowards(transform.position, target, step);
+        //transform.position += frameMovement;
     }
+    void PlaceCharacter(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+    }
+
     
     
     
@@ -141,9 +178,7 @@ public class Move : MonoBehaviour
             "Vert. : " + Input.GetAxis("Vertical"),
             "Character Pos: " + transform.position.x + ", " + transform.position.y,
             "Target: " + _currentTarget,
-            "Counter: " + counter,
-            "Quanto Andou: " + distanceMovedThisFrame,
-            "Distancia do Alvo" + distanceToTarget
+            "Last Position: " + _lastPosition
         };
         int ypos = 10;
         foreach(string str in strings) {

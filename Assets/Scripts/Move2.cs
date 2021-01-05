@@ -16,29 +16,100 @@ public class Move2 : MonoBehaviour
     Rigidbody2D rigidbody;
     private int xpos = 10;
     private GUIStyle guiStyle = new GUIStyle();
+    private bool isMoving;
+    private Direction _movingDirection;
+    private Vector2 target;
 
-
+    private Vector2 _velocity;
+   
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         guiStyle.fontSize = 20;
-        guiStyle.normal.textColor = Color.black;
+        guiStyle.normal.textColor = Color.blue;
+        target = new Vector2(transform.position.x, transform.position.y);
+        _velocity = new Vector2(0f,0f);
 
     }
 
     void Update()
     {
-        Vector2 vel = new Vector2(0f,0f);
+        Vector2 characterPosition = new Vector2(transform.position.x, transform.position.y);
         if (Mathf.Abs(Input.GetAxis("Horizontal")) >= 1f)
-        {    
-            vel = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, 0);
+        {
+            if (Input.GetAxis("Horizontal") >= 1f)
+            {
+                _movingDirection = Direction.Right;
+            }
+            else
+            {
+                _movingDirection = Direction.Left;
+            }
+            _velocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, 0);
+            isMoving = true;
         } 
         else if (Mathf.Abs(Input.GetAxis("Vertical")) >= 1f)
         {
-            vel = new Vector2(0, Input.GetAxis("Vertical") * walkSpeed);
+            if (Input.GetAxis("Vertical") >= 1f)
+            {
+                _movingDirection = Direction.Up;
+            }
+            else
+            {
+                _movingDirection = Direction.Down;
+            }
+            _velocity = new Vector2(0, Input.GetAxis("Vertical") * walkSpeed);
+            isMoving = true;
+        }
+        else if (isMoving)
+        {
+            switch (_movingDirection)
+            {
+                case Direction.Right: target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
+                    break;
+                case Direction.Left: target = new Vector2(Mathf.RoundToInt(characterPosition.x - 1f), characterPosition.y);
+                    break;
+                case Direction.Up: target = new Vector2(characterPosition.x, Mathf.RoundToInt(characterPosition.y + 1f));
+                    break;
+                case Direction.Down: target = new Vector2(characterPosition.x, Mathf.RoundToInt(characterPosition.y - 1f));
+                    break;
+                    
+            }
+            isMoving = false;
+            /*
+            if (_movingDirection == Direction.Right)
+            {
+                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
+                isMoving = false;
+            }
+            if (_movingDirection == Direction.Right)
+            {
+                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
+                isMoving = false;
+            }
+            if (_movingDirection == Direction.Right)
+            {
+                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
+                isMoving = false;
+            }
+            if (_movingDirection == Direction.Right)
+            {
+                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
+                isMoving = false;
+            }*/
+        }
+        else if (!characterPosition.Equals(target))
+        {
+            float distance = Mathf.Abs(characterPosition.x - target.x) + Mathf.Abs(characterPosition.y - target.y);
+            if (distance < 0.2)
+            {
+                transform.position = target;
+                _velocity = new Vector2(0, 0);
+            }
         }
 
-        rigidbody.velocity = vel;
+
+        rigidbody.velocity = _velocity;
         
     }
 
@@ -54,11 +125,6 @@ public class Move2 : MonoBehaviour
         string[] strings = {
             "Horiz.: " + Input.GetAxis("Horizontal") ,
             "Vert. : " + Input.GetAxis("Vertical"),
-            "Fire1 : " + Input.GetButton("Fire1"),
-            "Fire2 : " + Input.GetButton("Fire2"),
-            "Fire3 : " + Input.GetButton("Fire3"),
-            "MouseX: " + Input.GetAxis("Mouse X"),
-            "MouseY: " + Input.GetAxis("Mouse Y"),
             "M. Pos: " + Input.mousePosition,
             "Character Pos: " + transform.position.x + ", " + transform.position.y
         };
