@@ -35,7 +35,7 @@ public class Move2 : MonoBehaviour
     void Update()
     {
         Vector2 characterPosition = new Vector2(transform.position.x, transform.position.y);
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) >= 1f)
+        if (Mathf.Abs(Input.GetAxis("Horizontal")) >= 1f & _movingDirection == Direction.None)
         {
             if (Input.GetAxis("Horizontal") >= 1f)
             {
@@ -48,7 +48,7 @@ public class Move2 : MonoBehaviour
             _velocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, 0);
             isMoving = true;
         } 
-        else if (Mathf.Abs(Input.GetAxis("Vertical")) >= 1f)
+        else if (Mathf.Abs(Input.GetAxis("Vertical")) >= 1f & _movingDirection == Direction.None)
         {
             if (Input.GetAxis("Vertical") >= 1f)
             {
@@ -105,6 +105,7 @@ public class Move2 : MonoBehaviour
             {
                 transform.position = target;
                 _velocity = new Vector2(0, 0);
+                _movingDirection = Direction.None;
             }
         }
 
@@ -112,16 +113,10 @@ public class Move2 : MonoBehaviour
         rigidbody.velocity = _velocity;
         
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Colidiu");
-        Debug.Log(collision.collider.name);
-        Debug.Log(collision.otherCollider.name);
-         
-    }
+    
     
     void OnGUI() {
+        GUI.backgroundColor = Color.yellow;
         string[] strings = {
             "Horiz.: " + Input.GetAxis("Horizontal") ,
             "Vert. : " + Input.GetAxis("Vertical"),
