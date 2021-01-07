@@ -35,7 +35,7 @@ public class Move2 : MonoBehaviour
     void Update()
     {
         Vector2 characterPosition = new Vector2(transform.position.x, transform.position.y);
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) >= 1f & _movingDirection == Direction.None)
+        if (Mathf.Abs(Input.GetAxis("Horizontal")) >= 1f & _movingDirection == Direction.None & ValidatePosition(characterPosition.y))
         {
             if (Input.GetAxis("Horizontal") >= 1f)
             {
@@ -48,7 +48,7 @@ public class Move2 : MonoBehaviour
             _velocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, 0);
             isMoving = true;
         } 
-        else if (Mathf.Abs(Input.GetAxis("Vertical")) >= 1f & _movingDirection == Direction.None)
+        else if (Mathf.Abs(Input.GetAxis("Vertical")) >= 1f & _movingDirection == Direction.None & ValidatePosition(characterPosition.x))
         {
             if (Input.GetAxis("Vertical") >= 1f)
             {
@@ -109,12 +109,44 @@ public class Move2 : MonoBehaviour
             }
         }
 
-
+/*
+        if (_velocity.x != 0 & (_movingDirection == Direction.Up || _movingDirection == Direction.Down))
+        {
+            return;
+        }
+        if (_velocity.y != 0 & (_movingDirection == Direction.Right || _movingDirection == Direction.Left))
+        {
+            return;
+        }*/
         rigidbody.velocity = _velocity;
-        
+    }
+
+    private bool ValidatePosition(float value)
+    {
+        if (Mathf.Abs(value - Mathf.RoundToInt(value)) < 0.08)
+        {
+            return true;
+        }
+        return false;
     }
     
     
+
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        _movingDirection = Direction.None;
+        /*
+        Vector3 adjustPosition = Vector3Int.FloorToInt(transform.position);
+        transform.position = adjustPosition;
+        */
+    }
+
+    private void OnCollision2D(Collision2D collision)
+    {
+        _movingDirection = Direction.None;
+    }
+
     void OnGUI() {
         GUI.backgroundColor = Color.yellow;
         string[] strings = {
