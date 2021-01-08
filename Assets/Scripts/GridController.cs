@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -51,6 +53,7 @@ public class GridController : MonoBehaviour
     void Update()
     {
         characterPosition = VectorTransformer.Vector3ToVector2Int(character.transform.position);
+        showList();
     }
 
     public void AddObjectToGrid(Transform newObject)
@@ -70,6 +73,25 @@ public class GridController : MonoBehaviour
         if (_gridObjects.ContainsKey(position))
         {
             return false;
+            
+        }
+        //Verify on Tilemaps
+        foreach (Tilemap tilemap in _tilemapList)
+        {
+            if (tilemap.HasTile(VectorTransformer.Vector2IntToVector3Int(position)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public bool CellIsEmptyWithoutCharacter(Vector2Int position)
+    {
+        //Verify on Objects
+        if (_gridObjects.ContainsKey(position))
+        {
+            return false;
         }
 
         //Verify on Tilemaps
@@ -82,6 +104,7 @@ public class GridController : MonoBehaviour
         }
         return true;
     }
+
 
     public bool IsCharacterOnCell(Vector2Int position)
     {
@@ -115,5 +138,111 @@ public class GridController : MonoBehaviour
         }
         return false;
     }
-    
+
+    public bool HasTileAt(Vector2Int position)
+    {
+        foreach (Tilemap tilemap in _tilemapList)
+        {
+            if (tilemap.HasTile(VectorTransformer.Vector2IntToVector3Int(position)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void showList()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            foreach (Vector2Int key in _gridObjects.Keys)
+            {
+                Debug.Log(key);
+            }
+            Debug.Log("----------------");
+        }
+    }
+
+    public bool HasNextFreeSpace(Vector2Int fromPosition, Direction direction)
+    {
+        
+        Vector2Int directionValue;
+        switch (direction)
+        {
+            case Direction.Right:
+                directionValue = Vector2Int.right;
+                break;
+            case Direction.Left:
+                directionValue = Vector2Int.left;
+                break;
+            case Direction.Up:
+                directionValue = Vector2Int.up;
+                break;
+            case Direction.Down:
+                directionValue = Vector2Int.down;
+                break;
+            default:
+                directionValue = Vector2Int.zero;
+                break;
+        }
+
+        for (Vector2Int position = fromPosition; true ; position += directionValue)
+        {
+            if (CellIsEmpty(position))
+            {
+                return true;
+            }
+
+            if (IsCharacterOnCell(position))
+            {
+                return false;
+            }
+
+            if (HasTileAt(position))
+            { 
+                return false;
+            }
+        }
+    }
+    public Vector2Int GetNextFreeSpace(Vector2Int fromPosition, Direction direction)
+    {
+        
+        Vector2Int directionValue;
+        switch (direction)
+        {
+            case Direction.Right:
+                directionValue = Vector2Int.right;
+                break;
+            case Direction.Left:
+                directionValue = Vector2Int.left;
+                break;
+            case Direction.Up:
+                directionValue = Vector2Int.up;
+                break;
+            case Direction.Down:
+                directionValue = Vector2Int.down;
+                break;
+            default:
+                directionValue = Vector2Int.zero;
+                break;
+        }
+
+        for (Vector2Int position = fromPosition; true ; position += directionValue)
+        {
+            if (CellIsEmpty(position))
+            {
+                return position;
+            }
+
+            if (IsCharacterOnCell(position))
+            {
+                return VectorTransformer.NullPoint;
+            }
+
+            if (HasTileAt(position))
+            {
+                return VectorTransformer.NullPoint;
+            }
+        }
+    }
 }
