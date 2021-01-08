@@ -10,20 +10,20 @@ public class Move3 : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    Rigidbody2D rigidbody;
-    private float lastPositionX;
-    private float andou;
-    private int xpos = 10;
-    private GUIStyle guiStyle = new GUIStyle();
+    Rigidbody2D _rigidbody;
+    private float _lastPositionX;
+    private float _andou;
+    private int _xpos = 10;
+    private GUIStyle _guiStyle = new GUIStyle();
 
     
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        lastPositionX = transform.position.x;
-        andou = 0;
-        guiStyle.fontSize = 20;
-        guiStyle.normal.textColor = Color.blue;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _lastPositionX = transform.position.x;
+        _andou = 0;
+        _guiStyle.fontSize = 20;
+        _guiStyle.normal.textColor = Color.blue;
     }
 
     /*
@@ -42,13 +42,13 @@ public class Move3 : MonoBehaviour
     {
     
         Vector2 vel = new Vector2(10, 0);
-        rigidbody.velocity = vel;
+        _rigidbody.velocity = vel;
 
-        andou = transform.position.x - lastPositionX;
-        lastPositionX = transform.position.x;
+        _andou = transform.position.x - _lastPositionX;
+        _lastPositionX = transform.position.x;
         Debug.Log("Character Pos: " + transform.position.x + ", " + transform.position.y);
-        Debug.Log("Last Pos: " + lastPositionX);
-        Debug.Log("Andou: " + andou);
+        Debug.Log("Last Pos: " + _lastPositionX);
+        Debug.Log("Andou: " + _andou);
         Debug.Log("Tempo: " + Time.deltaTime);
 
 
@@ -62,14 +62,14 @@ public class Move3 : MonoBehaviour
             "Horiz.: " + Input.GetAxis("Horizontal") ,
             "Vert. : " + Input.GetAxis("Vertical"),
             "Character Pos: " + transform.position.x + ", " + transform.position.y,
-            "Last Pos: "  + lastPositionX,
-            "Andou: " + andou,
+            "Last Pos: "  + _lastPositionX,
+            "Andou: " + _andou,
             "Tempo: " + Time.deltaTime
             
         };
         int ypos = 10;
         foreach(string str in strings) {
-            GUI.Label(new Rect(xpos, ypos, 100, 20), str, guiStyle);
+            GUI.Label(new Rect(_xpos, ypos, 100, 20), str, _guiStyle);
             ypos += 20;
         }
     }

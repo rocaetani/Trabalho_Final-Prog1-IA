@@ -19,7 +19,7 @@ public class Stone : MonoBehaviour
     void Update()
     {
         Vector3 characterPosition = charcater.transform.position;
-        if (Input.GetAxis("Horizontal") > 0)
+        if (Input.GetAxis("Horizontal") > 0.5f)
         {
             Vector3Int tilePosition = new Vector3Int(Mathf.RoundToInt(characterPosition.x + 0.5f), Mathf.RoundToInt(characterPosition.y),0);
             if (_tilemap.HasTile(tilePosition))
@@ -27,7 +27,7 @@ public class Stone : MonoBehaviour
                 _tilemap.SetTile(tilePosition, null);
             }
         }
-        if (Input.GetAxis("Horizontal") < 0)
+        if (Input.GetAxis("Horizontal") < -0.5f)
         {
             Vector3Int tilePosition = new Vector3Int(Mathf.RoundToInt(characterPosition.x - 0.5f), Mathf.RoundToInt(characterPosition.y),0);
             if (_tilemap.HasTile(tilePosition))
@@ -35,7 +35,7 @@ public class Stone : MonoBehaviour
                 _tilemap.SetTile(tilePosition, null);
             }
         }
-        if (Input.GetAxis("Vertical") > 0)
+        if (Input.GetAxis("Vertical") > 0.5f)
         {
             Vector3Int tilePosition = new Vector3Int(Mathf.RoundToInt(characterPosition.x), Mathf.RoundToInt(characterPosition.y + 0.5f),0);
             if (_tilemap.HasTile(tilePosition))
@@ -43,7 +43,7 @@ public class Stone : MonoBehaviour
                 _tilemap.SetTile(tilePosition, null);
             }
         }
-        if (Input.GetAxis("Vertical") < 0)
+        if (Input.GetAxis("Vertical") < -0.5f)
         {
             Vector3Int tilePosition = new Vector3Int(Mathf.RoundToInt(characterPosition.x), Mathf.RoundToInt(characterPosition.y - 0.5f),0);
             if (_tilemap.HasTile(tilePosition))

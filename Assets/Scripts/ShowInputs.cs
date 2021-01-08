@@ -5,12 +5,12 @@ using UnityEngine;
 public class ShowInputs : MonoBehaviour
 {
     
-    private int xpos = 10;
-    private GUIStyle guiStyle = new GUIStyle();
+    private int _xpos = 10;
+    private GUIStyle _guiStyle = new GUIStyle();
     public GameObject target;
     void Start() {
-        guiStyle.fontSize = 20;
-        guiStyle.normal.textColor = Color.yellow;
+        _guiStyle.fontSize = 20;
+        _guiStyle.normal.textColor = Color.yellow;
     }
         
     void OnGUI() {
@@ -28,7 +28,7 @@ public class ShowInputs : MonoBehaviour
         };
         int ypos = 10;
         foreach(string str in strings) {
-            GUI.Label(new Rect(xpos, ypos, 100, 20), str, guiStyle);
+            GUI.Label(new Rect(_xpos, ypos, 100, 20), str, _guiStyle);
             ypos += 20;
         }
     }

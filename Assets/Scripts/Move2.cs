@@ -13,112 +13,80 @@ public class Move2 : MonoBehaviour
     // Start is called before the first frame update
 
     public float walkSpeed = 1000000f;
-    Rigidbody2D rigidbody;
-    private int xpos = 10;
-    private GUIStyle guiStyle = new GUIStyle();
-    private bool isMoving;
+    Rigidbody2D _rigidbody;
+    private int _xpos = 10;
+    private GUIStyle _guiStyle = new GUIStyle();
+    private bool _isMoving;
     private Direction _movingDirection;
-    private Vector2 target;
+    private Vector2 _target;
 
     private Vector2 _velocity;
    
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        guiStyle.fontSize = 20;
-        guiStyle.normal.textColor = Color.blue;
-        target = new Vector2(transform.position.x, transform.position.y);
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _guiStyle.fontSize = 20;
+        _guiStyle.normal.textColor = Color.blue;
+        _target = new Vector2(transform.position.x, transform.position.y);
         _velocity = new Vector2(0f,0f);
 
     }
 
     void Update()
     {
-        Vector2 characterPosition = new Vector2(transform.position.x, transform.position.y);
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) >= 1f & _movingDirection == Direction.None & ValidatePosition(characterPosition.y))
+        Vector2 characterPosition = VectorTransformer.Vector3ToVector2(transform.position);
+        
+        if (Input.GetAxis("Horizontal") > 0.5f & _movingDirection == Direction.None & ValidatePosition(characterPosition.y))
         {
-            if (Input.GetAxis("Horizontal") >= 1f)
-            {
-                _movingDirection = Direction.Right;
-            }
-            else
-            {
-                _movingDirection = Direction.Left;
-            }
-            _velocity = new Vector2(Input.GetAxis("Horizontal") * walkSpeed, 0);
-            isMoving = true;
-        } 
-        else if (Mathf.Abs(Input.GetAxis("Vertical")) >= 1f & _movingDirection == Direction.None & ValidatePosition(characterPosition.x))
-        {
-            if (Input.GetAxis("Vertical") >= 1f)
-            {
-                _movingDirection = Direction.Up;
-            }
-            else
-            {
-                _movingDirection = Direction.Down;
-            }
-            _velocity = new Vector2(0, Input.GetAxis("Vertical") * walkSpeed);
-            isMoving = true;
+            _movingDirection = Direction.Right;
+            _velocity = new Vector2(1 * walkSpeed, 0);
+            _isMoving = true;
         }
-        else if (isMoving)
+        else if (Input.GetAxis("Horizontal") < -0.5f & _movingDirection == Direction.None & ValidatePosition(characterPosition.y))
+        {
+            _movingDirection = Direction.Left;
+            _velocity = new Vector2(-1 * walkSpeed, 0);
+            _isMoving = true;
+        }
+        else if (Input.GetAxis("Vertical") > 0.5f & _movingDirection == Direction.None & ValidatePosition(characterPosition.x))
+        {
+            _movingDirection = Direction.Up;
+            _velocity = new Vector2(0, 1 * walkSpeed);
+            _isMoving = true;
+        }
+        else if (Input.GetAxis("Vertical") < -0.5f & _movingDirection == Direction.None & ValidatePosition(characterPosition.x))
+        {
+            _movingDirection = Direction.Down;
+            _velocity = new Vector2(0, -1 * walkSpeed);
+            _isMoving = true;
+        }
+        else if (_isMoving)
         {
             switch (_movingDirection)
             {
-                case Direction.Right: target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
+                case Direction.Right: _target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
                     break;
-                case Direction.Left: target = new Vector2(Mathf.RoundToInt(characterPosition.x - 1f), characterPosition.y);
+                case Direction.Left: _target = new Vector2(Mathf.RoundToInt(characterPosition.x - 1f), characterPosition.y);
                     break;
-                case Direction.Up: target = new Vector2(characterPosition.x, Mathf.RoundToInt(characterPosition.y + 1f));
+                case Direction.Up: _target = new Vector2(characterPosition.x, Mathf.RoundToInt(characterPosition.y + 1f));
                     break;
-                case Direction.Down: target = new Vector2(characterPosition.x, Mathf.RoundToInt(characterPosition.y - 1f));
+                case Direction.Down: _target = new Vector2(characterPosition.x, Mathf.RoundToInt(characterPosition.y - 1f));
                     break;
                     
             }
-            isMoving = false;
-            /*
-            if (_movingDirection == Direction.Right)
-            {
-                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
-                isMoving = false;
-            }
-            if (_movingDirection == Direction.Right)
-            {
-                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
-                isMoving = false;
-            }
-            if (_movingDirection == Direction.Right)
-            {
-                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
-                isMoving = false;
-            }
-            if (_movingDirection == Direction.Right)
-            {
-                target = new Vector2(Mathf.RoundToInt(characterPosition.x + 1f), characterPosition.y);
-                isMoving = false;
-            }*/
+            _isMoving = false;
         }
-        else if (!characterPosition.Equals(target))
+        else if (!characterPosition.Equals(_target))
         {
-            float distance = Mathf.Abs(characterPosition.x - target.x) + Mathf.Abs(characterPosition.y - target.y);
+            float distance = Mathf.Abs(characterPosition.x - _target.x) + Mathf.Abs(characterPosition.y - _target.y);
             if (distance < 0.2)
             {
-                transform.position = target;
+                transform.position = _target;
                 _velocity = new Vector2(0, 0);
                 _movingDirection = Direction.None;
             }
         }
-
-/*
-        if (_velocity.x != 0 & (_movingDirection == Direction.Up || _movingDirection == Direction.Down))
-        {
-            return;
-        }
-        if (_velocity.y != 0 & (_movingDirection == Direction.Right || _movingDirection == Direction.Left))
-        {
-            return;
-        }*/
-        rigidbody.velocity = _velocity;
+        _rigidbody.velocity = _velocity;
     }
 
     private bool ValidatePosition(float value)
@@ -157,7 +125,7 @@ public class Move2 : MonoBehaviour
         };
         int ypos = 10;
         foreach(string str in strings) {
-            GUI.Label(new Rect(xpos, ypos, 100, 20), str, guiStyle);
+            GUI.Label(new Rect(_xpos, ypos, 100, 20), str, _guiStyle);
             ypos += 20;
         }
     }

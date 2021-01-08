@@ -19,19 +19,19 @@ public class Move : MonoBehaviour
 
     public float walkSpeed = 10f;
     //Rigidbody2D rigidbody;
-    float deltaX = 0;
-    private int xpos = 10;
-    private GUIStyle guiStyle = new GUIStyle();
+    float _deltaX = 0;
+    private int _xpos = 10;
+    private GUIStyle _guiStyle = new GUIStyle();
     
 
     private Vector3 _currentTarget;
-    private bool isColiding;
+    private bool _isColiding;
 
-    private bool isMoving;
-    private int counter;
-    private float distanceMovedThisFrame;
-    private float distanceToTarget;
-    private Direction moveDirection;
+    private bool _isMoving;
+    private int _counter;
+    private float _distanceMovedThisFrame;
+    private float _distanceToTarget;
+    private Direction _moveDirection;
     private Vector3 _lastPosition;
     
     void Start()
@@ -39,14 +39,14 @@ public class Move : MonoBehaviour
         //rigidbody = GetComponent<Rigidbody2D>();
         _lastPosition = transform.position;
         _currentTarget = _lastPosition;
-        guiStyle.fontSize = 30;
-        guiStyle.normal.textColor = Color.blue;
-        isColiding = false;
-        isMoving = false;
-        counter = 0;
-        distanceMovedThisFrame = 0;
-        distanceToTarget = 0;
-        moveDirection = Direction.None;
+        _guiStyle.fontSize = 30;
+        _guiStyle.normal.textColor = Color.blue;
+        _isColiding = false;
+        _isMoving = false;
+        _counter = 0;
+        _distanceMovedThisFrame = 0;
+        _distanceToTarget = 0;
+        _moveDirection = Direction.None;
         
 
     }
@@ -68,62 +68,62 @@ public class Move : MonoBehaviour
 
 
             if (Input.GetAxis("Horizontal") >= 1f &
-                (moveDirection == Direction.Right || moveDirection == Direction.None))
+                (_moveDirection == Direction.Right || _moveDirection == Direction.None))
             {
-                isMoving = true;
-                moveDirection = Direction.Right;
+                _isMoving = true;
+                _moveDirection = Direction.Right;
                 _currentTarget = new Vector3(Mathf.RoundToInt(transform.position.x + 1f), transform.position.y, 0);
             }
 
             if (Input.GetAxis("Horizontal") <= -1f &
-                (moveDirection == Direction.Left || moveDirection == Direction.None))
+                (_moveDirection == Direction.Left || _moveDirection == Direction.None))
             {
-                isMoving = true;
-                moveDirection = Direction.Left;
+                _isMoving = true;
+                _moveDirection = Direction.Left;
                 _currentTarget = new Vector3(Mathf.RoundToInt(transform.position.x - 1f), transform.position.y, 0);
             }
 
-            if (Input.GetAxis("Vertical") >= 1f & (moveDirection == Direction.Up || moveDirection == Direction.None))
+            if (Input.GetAxis("Vertical") >= 1f & (_moveDirection == Direction.Up || _moveDirection == Direction.None))
             {
-                isMoving = true;
-                moveDirection = Direction.Up;
+                _isMoving = true;
+                _moveDirection = Direction.Up;
                 _currentTarget = new Vector3(transform.position.x, Mathf.RoundToInt(transform.position.y + 1f), 0);
             }
 
-            if (Input.GetAxis("Vertical") <= -1f & (moveDirection == Direction.Down || moveDirection == Direction.None))
+            if (Input.GetAxis("Vertical") <= -1f & (_moveDirection == Direction.Down || _moveDirection == Direction.None))
             {
-                isMoving = true;
-                moveDirection = Direction.Down;
+                _isMoving = true;
+                _moveDirection = Direction.Down;
                 _currentTarget = new Vector3(transform.position.x, Mathf.RoundToInt(transform.position.y - 1f), 0);
             }
 
 
 
-            if (isMoving)
+            if (_isMoving)
             {
                 Vector3 direction = _currentTarget - transform.position;
-                distanceToTarget = direction.magnitude;
+                _distanceToTarget = direction.magnitude;
                 direction.Normalize();
 
 
 
-                distanceMovedThisFrame = walkSpeed * Time.deltaTime;
+                _distanceMovedThisFrame = walkSpeed * Time.deltaTime;
 
 
-                if (Mathf.Abs(Input.GetAxis("Horizontal")) < 1f & (distanceMovedThisFrame >= distanceToTarget))
+                if (Mathf.Abs(Input.GetAxis("Horizontal")) < 1f & (_distanceMovedThisFrame >= _distanceToTarget))
                 {
-                    MoveCharacter(_currentTarget, distanceToTarget);
+                    MoveCharacter(_currentTarget, _distanceToTarget);
                 }
 
                 if (_currentTarget == transform.position
                 ) //(Input.GetAxis("Horizontal") == 0 & Input.GetAxis("Vertical") == 0)
                 {
-                    isMoving = false;
-                    moveDirection = Direction.None;
+                    _isMoving = false;
+                    _moveDirection = Direction.None;
                 }
                 else
                 {
-                    MoveCharacter(_currentTarget, distanceMovedThisFrame);
+                    MoveCharacter(_currentTarget, _distanceMovedThisFrame);
                 }
             
 
@@ -151,7 +151,7 @@ public class Move : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D collision)
     {
-        isColiding = true;
+        _isColiding = true;
         Debug.Log(collision.transform.position);
         _lastPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, 0);
 
@@ -182,7 +182,7 @@ public class Move : MonoBehaviour
         };
         int ypos = 10;
         foreach(string str in strings) {
-            GUI.Label(new Rect(xpos, ypos, 100, 20), str, guiStyle);
+            GUI.Label(new Rect(_xpos, ypos, 100, 20), str, _guiStyle);
             ypos += 20;
         }
     }
