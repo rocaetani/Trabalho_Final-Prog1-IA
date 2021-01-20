@@ -115,6 +115,7 @@ public class Move2 : MonoBehaviour
         _movingDirection = Direction.None;
     }
 
+    /*
     void OnGUI() {
         GUI.backgroundColor = Color.yellow;
         string[] strings = {
@@ -129,7 +130,7 @@ public class Move2 : MonoBehaviour
             ypos += 20;
         }
     }
-    
+    */
     
     
 

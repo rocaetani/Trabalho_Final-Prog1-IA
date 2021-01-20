@@ -27,6 +27,7 @@
           <e p="Move.cs" t="Include" />
           <e p="Move2.cs" t="Include" />
           <e p="Move3.cs" t="Include" />
+          <e p="MoveAnimation.cs" t="Include" />
           <e p="PushRock.cs" t="Include" />
           <e p="Rock.cs" t="Include" />
           <e p="Rock2.cs" t="Include" />
