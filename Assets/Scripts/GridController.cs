@@ -245,4 +245,10 @@ public class GridController : MonoBehaviour
             }
         }
     }
+
+
+    public void RemoveObject(Vector2Int fromPosition)
+    {
+        _gridObjects.Remove(fromPosition);
+    }
 }

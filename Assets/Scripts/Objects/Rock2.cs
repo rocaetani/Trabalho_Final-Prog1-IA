@@ -119,27 +119,7 @@ public class Rock2 : MonoBehaviour
     }
 
 
-    /*
-    private void OnCollisionStay2D(Collision2D collison)
-    {
-        if (transform.position.y > collison.transform.position.y)
-        {
-            Debug.Log(transform.position.y + " > " + collison.transform.position.y);
 
-            //Debug.Log("Is Falling: "+ _isFalling);
-            
-            if (!collison.gameObject.CompareTag("Character"))
-            {
-                Debug.Log(collison.transform.name);
-                _startFallFrom = VectorTransformer.NullPoint;
-                Debug.Log("Anulou Start");
-            }
-        }
-
-        
-        
-    }
-    */
     
     private void Fall(Vector2Int fromPosition, Vector2Int toPosition)
     {
