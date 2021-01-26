@@ -11,8 +11,12 @@ public class Stage : MonoBehaviour
 
     public Vector3 position;
 
+    public SceneOptions sceneOptions;
+
     void Start()
     {
         position = transform.position;
+        
+        sceneOptions = GetComponent<SceneOptions>();
     }
 }

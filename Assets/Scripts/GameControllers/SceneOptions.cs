@@ -7,6 +7,10 @@ public class SceneOptions : MonoBehaviour
     public int diamondsNeeded;
 
     public int maxTime;
+    
+    public int firstDiamondScore;
+    
+    public int secondDiamondScore;
 
     
 }

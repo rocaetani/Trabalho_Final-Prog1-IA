@@ -169,6 +169,7 @@ MonoBehaviour:
   toStage: 3
   fromStage: 0
   position: {x: 0, y: 0, z: 0}
+  sceneOptions: {fileID: 0}
 --- !u!212 &139561956
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -313,6 +314,8 @@ GameObject:
   - component: {fileID: 448324199}
   - component: {fileID: 448324198}
   - component: {fileID: 448324200}
+  - component: {fileID: 448324201}
+  - component: {fileID: 448324202}
   m_Layer: 0
   m_Name: Stage4
   m_TagString: Untagged
@@ -401,6 +404,42 @@ MonoBehaviour:
   toStage: 0
   fromStage: 2
   position: {x: 0, y: 0, z: 0}
+  sceneOptions: {fileID: 0}
+--- !u!114 &448324201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448324197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded59be25d64ef24b9981c776d0aee87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diamondsNeeded: 10
+  maxTime: 180
+  firstDiamondScore: 10
+  secondDiamondScore: 20
+--- !u!95 &448324202
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448324197}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 967ff483017fab547977f8c5d32dfacc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &545544726
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,6 +451,8 @@ GameObject:
   - component: {fileID: 545544728}
   - component: {fileID: 545544727}
   - component: {fileID: 545544729}
+  - component: {fileID: 545544730}
+  - component: {fileID: 545544731}
   m_Layer: 0
   m_Name: Stage1
   m_TagString: Untagged
@@ -478,7 +519,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545544726}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.75, y: 1.6300001, z: 0}
+  m_LocalPosition: {x: 4.75, y: 1.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 622047663}
@@ -500,6 +541,42 @@ MonoBehaviour:
   toStage: 1
   fromStage: 0
   position: {x: 0, y: 0, z: 0}
+  sceneOptions: {fileID: 0}
+--- !u!114 &545544730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545544726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded59be25d64ef24b9981c776d0aee87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diamondsNeeded: 1
+  maxTime: 180
+  firstDiamondScore: 20
+  secondDiamondScore: 60
+--- !u!95 &545544731
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545544726}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39dd80bb1fb3c0e4ca1155d3508f6579, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &579974224
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 579974226}
   - component: {fileID: 579974225}
+  - component: {fileID: 579974227}
   m_Layer: 0
   m_Name: Selector
   m_TagString: Untagged
@@ -582,6 +660,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &579974227
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579974224}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 465e4746dd1a93445bddde130a6a96b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &622047661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,6 +1318,8 @@ GameObject:
   - component: {fileID: 1550306014}
   - component: {fileID: 1550306013}
   - component: {fileID: 1550306015}
+  - component: {fileID: 1550306016}
+  - component: {fileID: 1550306017}
   m_Layer: 0
   m_Name: Stage3
   m_TagString: Untagged
@@ -1287,7 +1386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550306012}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.75, y: 2.57, z: 0}
+  m_LocalPosition: {x: 3.75, y: 2.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 622047663}
@@ -1309,6 +1408,42 @@ MonoBehaviour:
   toStage: 1
   fromStage: 3
   position: {x: 0, y: 0, z: 0}
+  sceneOptions: {fileID: 0}
+--- !u!114 &1550306016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550306012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded59be25d64ef24b9981c776d0aee87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diamondsNeeded: 10
+  maxTime: 180
+  firstDiamondScore: 10
+  secondDiamondScore: 20
+--- !u!95 &1550306017
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550306012}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39dd80bb1fb3c0e4ca1155d3508f6579, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1555689574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,6 +1635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DiamondsText: {fileID: 1855042794}
   TimeText: {fileID: 627230381}
+  ScoreText: {fileID: 1400040264}
+  _isInScene: 
 --- !u!114 &1767216577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1726,6 +1863,8 @@ GameObject:
   - component: {fileID: 2087413127}
   - component: {fileID: 2087413126}
   - component: {fileID: 2087413128}
+  - component: {fileID: 2087413129}
+  - component: {fileID: 2087413130}
   m_Layer: 0
   m_Name: Stage2
   m_TagString: Untagged
@@ -1814,3 +1953,39 @@ MonoBehaviour:
   toStage: 4
   fromStage: 2
   position: {x: 0, y: 0, z: 0}
+  sceneOptions: {fileID: 0}
+--- !u!114 &2087413129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087413125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded59be25d64ef24b9981c776d0aee87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diamondsNeeded: 10
+  maxTime: 180
+  firstDiamondScore: 10
+  secondDiamondScore: 20
+--- !u!95 &2087413130
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087413125}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39dd80bb1fb3c0e4ca1155d3508f6579, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

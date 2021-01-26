@@ -47,14 +47,19 @@ public class MapController : MonoBehaviour
 
         if (Input.GetButton("Submit1") & _selectorIndex != 0)
         {
-            Debug.Log("Vai para Cena: " + _stageList[_selectorIndex].SceneName);
-            _menuController.NewScene(_stageList[_selectorIndex].SceneName);
+            EnterStage();
+
         }
         if (Input.GetKey(KeyCode.X) & _selectorIndex != 0)
         {
-            Debug.Log("Vai para Cena: " + _stageList[_selectorIndex].SceneName);
-            _menuController.NewScene(_stageList[_selectorIndex].SceneName);
+            EnterStage();
         }
+    }
+
+    private void EnterStage()
+    {
+        Stage stage = _stageList[_selectorIndex];
+        _menuController.NewScene(stage.SceneName, stage.sceneOptions);
     }
 
     private void VerifySelection(Direction direction)

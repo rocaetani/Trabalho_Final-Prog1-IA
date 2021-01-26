@@ -8,23 +8,31 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
 
+    //Canvas Parameters
     private Canvas _menuCanvas;
     public TMP_Text DiamondsText;
     public TMP_Text TimeText;
+    public TMP_Text ScoreText;
 
+    //Score Parameters
+    private int _totalScore;
+    private int _firstDiamondScore;
+    private int _secondDiamondScore;
 
+    //Diamond Parameters
     private int _diamondsLeft;
-    private int _initialTime;
-
-    private bool _nextSceneControl;
-
+    
+    //Time Parameters
+    private int _maxTime;
     private int _timeStageStart;
 
-    private String _isInScene;
+    //Control Parameters
+    public String _isInScene;
+    private bool _nextSceneControl;
     
     void Start()
     {
-        _initialTime = 180;
+        _maxTime = 180;
         _diamondsLeft = 10;
         _nextSceneControl = true;
         _timeStageStart = 0;
@@ -38,29 +46,31 @@ public class MenuController : MonoBehaviour
     
     void Update()
     {
-        
+        //If is a Stage Load SceneOptions once
+        /*
         if (_nextSceneControl & !_isInScene.Equals("Map"))
         {
             _nextSceneControl = false;
-            SceneOptions newSceneOption = GameObject.FindGameObjectWithTag("SceneOptions").GetComponent<SceneOptions>();
-            _diamondsLeft = newSceneOption.diamondsNeeded;
-            _initialTime = newSceneOption.maxTime;
-            _timeStageStart = (int)Time.time;
+            //LoadSceneOptions();
         }
+        */
         
-        int _time = _initialTime - (int)Time.time + _timeStageStart;
+        //Calculate Time Laft
+        int timeRemaining = _maxTime - (int)Time.time + _timeStageStart;
         
-        if (_time == 0)
+        if (timeRemaining == 0)
         {
             Lose();
         }
 
         
         
-        //Debug.Log("Seconds: " + _time);
-        TimeText.text = _time.ToString().PadLeft(3,'0');
+        //Show values on Menu
+        TimeText.text = timeRemaining.ToString().PadLeft(3,'0');
         DiamondsText.text = _diamondsLeft.ToString().PadLeft(3,'0');
+        ScoreText.text = _totalScore.ToString().PadLeft(6,'0');
         
+        //Test
         if (Input.GetKey(KeyCode.A))
         {
             Win();
@@ -73,15 +83,42 @@ public class MenuController : MonoBehaviour
     
     public void PickDiamond()
     {
-        _diamondsLeft = _diamondsLeft - 1;
+        if (!DiamondThresholdPass())
+        {
+            _diamondsLeft = _diamondsLeft - 1;
+            Score(_firstDiamondScore);
+        }
+        else
+        {
+            Score(_secondDiamondScore);
+            //Make Menu Shine
+            //Free Exit
+        }
     }
-    
-    public void NewScene(String sceneName)
+
+    private bool DiamondThresholdPass()
+    {
+        if (_diamondsLeft == 0)
+        {
+            return true;
+            
+        }
+
+        return false;
+    }
+
+    private void Score(int value)
+    {
+        _totalScore = _totalScore + value;
+    }
+
+    public void NewScene(String sceneName, SceneOptions newSceneOption)
     {
         _menuCanvas.enabled = true;
         _isInScene = sceneName;
         SceneManager.LoadScene(sceneName);
-        _nextSceneControl = true;
+        //_nextSceneControl = true;
+        LoadSceneOptions(newSceneOption);
     }
 
     public void Win()
@@ -99,7 +136,25 @@ public class MenuController : MonoBehaviour
     public void GoToMap()
     {
         _isInScene = "Map";
-        _menuCanvas.enabled = false;
+        //_menuCanvas.enabled = false;
         SceneManager.LoadScene("Map");
+    }
+
+    private void LoadSceneOptions(SceneOptions newSceneOption)
+    {
+        //SceneOptions newSceneOption = GameObject.FindGameObjectWithTag("SceneOptions").GetComponent<SceneOptions>();
+        
+        //Score Parameters
+
+        _firstDiamondScore = newSceneOption.firstDiamondScore;
+        _secondDiamondScore = newSceneOption.secondDiamondScore;
+
+        //Diamond Parameters
+        _diamondsLeft = newSceneOption.diamondsNeeded;
+    
+        //Time Parameters
+        _maxTime = newSceneOption.maxTime;
+        _timeStageStart = (int)Time.time;
+        
     }
 }

@@ -746,6 +746,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diamondsNeeded: 5
   maxTime: 100
+  firstDiamondScore: 20
+  secondDiamondScore: 50
 --- !u!4 &671349464
 Transform:
   m_ObjectHideFlags: 0
