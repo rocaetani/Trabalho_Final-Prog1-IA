@@ -26,12 +26,18 @@
             <e p="MoveAnimation.cs" t="Include" />
             <e p="PushRock.cs" t="Include" />
           </e>
-          <e p="GridController.cs" t="Include" />
+          <e p="GameControllers" t="Include">
+            <e p="GridController.cs" t="Include" />
+            <e p="MapController.cs" t="Include" />
+            <e p="MenuController.cs" t="Include" />
+            <e p="SceneOptions.cs" t="Include" />
+            <e p="Stage.cs" t="Include" />
+          </e>
           <e p="Helpers" t="Include">
+            <e p="dIRECTION.cs" t="Include" />
             <e p="ShowInputs.cs" t="Include" />
             <e p="VectorTransformer.cs" t="Include" />
           </e>
-          <e p="MenuController.cs" t="Include" />
           <e p="Objects" t="Include">
             <e p="Bloco.cs" t="Include" />
             <e p="Diamond.cs" t="Include" />

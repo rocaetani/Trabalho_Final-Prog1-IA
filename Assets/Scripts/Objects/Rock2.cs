@@ -128,7 +128,6 @@ public class Rock2 : MonoBehaviour
             if(!_startFallFrom.Equals(VectorTransformer.NullPoint))
             {
                 _startFallFrom = VectorTransformer.Vector3ToVector2Int(transform.position);
-                Debug.Log("Mudou Start");
             }
             _gridController.MoveObject(fromPosition, toPosition);
             transform.position = VectorTransformer.Vector2IntToVector3Int(toPosition);

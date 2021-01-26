@@ -8,6 +8,8 @@ TagManager:
   - SolidTile
   - Character
   - MenuController
+  - Score
+  - SceneOptions
   layers:
   - Default
   - TransparentFX

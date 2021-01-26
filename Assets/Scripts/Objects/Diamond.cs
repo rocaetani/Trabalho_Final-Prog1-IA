@@ -61,7 +61,7 @@ public class Diamond : MonoBehaviour
 
     private void GetDiamond()
     {
-        _menuController.AddDimond();
+        _menuController.PickDiamond();
         Vector2Int objectPosition = VectorTransformer.Vector3ToVector2Int(transform.position);
         _gridController.RemoveObject(objectPosition);
         Destroy(gameObject);

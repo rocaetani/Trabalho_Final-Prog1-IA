@@ -4,14 +4,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direction
-{
-    None,
-    Up,
-    Down,
-    Right,
-    Left
-}
 
 public class Move : MonoBehaviour
 {
