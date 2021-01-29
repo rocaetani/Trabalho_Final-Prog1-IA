@@ -12,6 +12,11 @@ public class Rock2 : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private RigidbodyConstraints2D _normalConstraints;
     private bool _fallControl;
+    private AudioSource _audioSourceCollide;
+    private AudioSource _audioSourceFall;
+    //public AudioClip fallSound;
+    //public AudioClip collideSound;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +27,9 @@ public class Rock2 : MonoBehaviour
         //_rigidbody2D.velocity = new Vector2(0,-2);
         _normalConstraints = _rigidbody2D.constraints;
         _fallControl = false;
-
+        _audioSourceCollide = transform.GetComponent<AudioSource>();
+        _audioSourceFall = transform.GetChild(0).GetComponent<AudioSource>();
+        
     }
     
     void Update()
@@ -82,9 +89,16 @@ public class Rock2 : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        _audioSourceCollide.Play();
+    }
+
 
     private void Slide(Vector2Int fromPosition, Vector2Int toPosition)
     {
+        
+        _audioSourceFall.Play();
         transform.position = VectorTransformer.Vector2IntToVector3Int(toPosition);
         _gridController.MoveObject(fromPosition, toPosition);
     }

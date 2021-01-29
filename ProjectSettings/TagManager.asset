@@ -12,6 +12,8 @@ TagManager:
   - SceneOptions
   - Rock
   - GridController
+  - Butterfly
+  - IsPaused
   layers:
   - Default
   - TransparentFX

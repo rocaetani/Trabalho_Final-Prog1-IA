@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Exit: MonoBehaviour
 {
+    public GameObject PrefabDGood;
+    
     private GameObject _character;
     private GridController _gridController;
     private MenuController _menuController;
     private bool _diamondsCollected;
-    
+
+    private AudioSource _audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +20,7 @@ public class Exit: MonoBehaviour
         _gridController = transform.parent.GetComponent<GridController>();
         _character = GameObject.FindGameObjectWithTag("Character");
         _diamondsCollected = false;
+        _audioSource = transform.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -78,17 +82,13 @@ public class Exit: MonoBehaviour
 
     private void GoToExit()
     {
-        _menuController.Win();
-        //Vector2Int objectPosition = VectorTransformer.Vector3ToVector2Int(transform.position);
-        //_gridController.RemoveObject(objectPosition);
-        Destroy(gameObject);
-    }
 
-    /*
-     private void OnCollisionEnter2D(Collision2D other)
-    {
+        Instantiate(PrefabDGood, transform.position + Vector3.up, Quaternion.identity);
+        _menuController.Win();
+        
+        _audioSource.Play();
+
         Destroy(gameObject);
     }
-    */
 
 }

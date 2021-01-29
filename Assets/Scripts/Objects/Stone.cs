@@ -8,11 +8,13 @@ public class Stone : MonoBehaviour
 {
     public GameObject charcater;
     private Tilemap _tilemap;
+    private AudioSource _audioSource;
     
     // Start is called before the first frame update
     void Start()
     {
         _tilemap = GetComponent<Tilemap>();
+        _audioSource = transform.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -25,6 +27,7 @@ public class Stone : MonoBehaviour
             if (_tilemap.HasTile(tilePosition))
             {
                 _tilemap.SetTile(tilePosition, null);
+                _audioSource.Play();
             }
         }
         if (Input.GetAxis("Horizontal") < -0.5f)
@@ -33,6 +36,7 @@ public class Stone : MonoBehaviour
             if (_tilemap.HasTile(tilePosition))
             {
                 _tilemap.SetTile(tilePosition, null);
+                _audioSource.Play();
             }
         }
         if (Input.GetAxis("Vertical") > 0.5f)
@@ -41,6 +45,7 @@ public class Stone : MonoBehaviour
             if (_tilemap.HasTile(tilePosition))
             {
                 _tilemap.SetTile(tilePosition, null);
+                _audioSource.Play();
             }
         }
         if (Input.GetAxis("Vertical") < -0.5f)
@@ -49,6 +54,7 @@ public class Stone : MonoBehaviour
             if (_tilemap.HasTile(tilePosition))
             {
                 _tilemap.SetTile(tilePosition, null);
+                _audioSource.Play();
             }
         }
     }

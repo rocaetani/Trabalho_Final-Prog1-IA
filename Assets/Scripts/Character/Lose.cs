@@ -20,6 +20,7 @@ public class Lose : MonoBehaviour
     private bool _startFall;
 
     private SpriteRenderer _spriteRenderer;
+    private AudioSource _audioSource;
     
 
     void Start()
@@ -30,7 +31,7 @@ public class Lose : MonoBehaviour
         _gridController = GameObject.FindGameObjectWithTag("GridController").GetComponent<GridController>();
         _startFall = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
-
+        _audioSource = transform.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -41,14 +42,6 @@ public class Lose : MonoBehaviour
         }
         if(!_loseControl)
         {
-
-            int i = 3;
-            Dictionary<int, int> dic = new Dictionary<int, int>();
-            dic.Add(1,i);
-            dic.TryGetValue(1, out int teste);
-            teste = teste + 1;
-            Debug.Log(i);
-            
             if (_characterLose.position.y > _jumpTo.y)
             {
                 _startFall = true;
@@ -83,6 +76,7 @@ public class Lose : MonoBehaviour
 
     public void Explode()
     {
+        _audioSource.Play();
         _spriteRenderer.enabled = false;
         Vector3 position = transform.position;
         Vector2Int positionVector2Int = VectorTransformer.Vector3ToVector2Int(position);

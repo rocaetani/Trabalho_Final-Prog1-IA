@@ -16,8 +16,11 @@ public class MenuController : MonoBehaviour
     public TMP_Text ScoreText;
     public RawImage GameOverMessage;
     public RawImage PauseMessage;
-    
+    public RawImage TimeIsUpMessage;
 
+    public Image DiamondsPanel;
+
+    public GameObject prefabTimeUp;
     //Stage Parameters
     public List<int> StagesCleared;
     private int _currentStage;
@@ -41,9 +44,18 @@ public class MenuController : MonoBehaviour
     public String IsInScene;
     //private bool _nextSceneControl;
     private bool _isPaused;
+
+    public bool StopMove;
     
+    private bool _timeUpControl;
+    
+
     void Start()
     {
+        if (GameObject.FindGameObjectsWithTag("MenuController").Length > 1)
+        {
+            GameObject.Destroy(this.gameObject);
+        }
         StagesCleared = new List<int>();
         life = 3;
         _maxTime = 180;
@@ -54,6 +66,8 @@ public class MenuController : MonoBehaviour
         IsInScene = "Map";
         _isPaused = false;
         _currentStage = 0;
+        _timeUpControl = true;
+        StopMove = false;
     }
     
     void Awake() {
@@ -65,10 +79,11 @@ public class MenuController : MonoBehaviour
         
         //Calculate Time Laft
         int timeRemaining = _maxTime - (int)Time.time + _timeStageStart;
-        
-        if (timeRemaining == 0)
+
+        if (timeRemaining == 0 & _timeUpControl)
         {
-            Lose();
+            _timeUpControl = false;
+            TimeIsUp();
         }
 
         
@@ -78,15 +93,6 @@ public class MenuController : MonoBehaviour
         DiamondsText.text = TransformToSpriteAsset(_diamondsLeft.ToString().PadLeft(3,'0'));
         ScoreText.text = TransformToSpriteAsset(_totalScore.ToString().PadLeft(6,'0'));
         
-        //Test
-        if (Input.GetKey(KeyCode.A))
-        {
-            Win();
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            Lose();
-        }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -96,14 +102,15 @@ public class MenuController : MonoBehaviour
             }
             else
             {
-                Pause();
+                Pause(true);
             }
 
         }
     }
     
-    public void PickDiamond()
+    public bool PickDiamond()
     {
+        int diamondsStart = _diamondsLeft;
         if (!DiamondThresholdPass())
         {
             _diamondsLeft = _diamondsLeft - 1;
@@ -115,6 +122,22 @@ public class MenuController : MonoBehaviour
             //Make Menu Shine
             //Free Exit
         }
+
+        if (diamondsStart == 1 & _diamondsLeft == 0)
+        {
+            DiamondsPanel.color = Color.green;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void TimeIsUp()
+    {
+        
+        ShowTimeIsUp();
+        StopMove = true;
+        Lose();
     }
 
     private bool DiamondThresholdPass()
@@ -146,8 +169,20 @@ public class MenuController : MonoBehaviour
     public void Win()
     {
         StagesCleared.Add(_currentStage);
-
+        AddTimeToScore();
         GoToMap();
+    }
+
+    private void GameOver()
+    {
+        _menuCanvas.enabled = false;
+        
+        _totalScore = 0;
+        life = 3;
+        ShowGameOver();
+        SceneManager.LoadScene("TitleScreen");
+        HideGameOver();
+        HideTimeIsUp();
     }
 
     public void Lose()
@@ -156,19 +191,25 @@ public class MenuController : MonoBehaviour
         if (life == 0)
         {
             //Game Over
-            ShowGameOver();
+            
+            GameOver();
         }
-
-        life = life - 1;
-        StartCoroutine(WaitGotoMap(3f));
+        else
+        {
+            life = life - 1;
+            StartCoroutine(WaitGotoMap(3f));
+        }
     }
 
     public void GoToMap()
     {
         IsInScene = "Map";
-        //_menuCanvas.enabled = false;
+        _menuCanvas.enabled = false;
+        _timeUpControl = true;
         SceneManager.LoadScene("Map");
         HideGameOver();
+        HideTimeIsUp();
+        StopMove = false;
     }
 
     private void LoadSceneOptions(SceneOptions newSceneOption)
@@ -227,10 +268,14 @@ public class MenuController : MonoBehaviour
         return _diamondsLeft;
     }
 
-    private void Pause()
+    private void Pause(bool show)
     {
         _isPaused = true;
-        ShowPause();
+        if (show)
+        {
+            ShowPause();
+        }
+
         Time.timeScale = 0;
     }
 
@@ -249,6 +294,21 @@ public class MenuController : MonoBehaviour
     private void HidePause()
     {
         PauseMessage.enabled = false;
+    }
+    
+    private void ShowTimeIsUp()
+    {
+        TimeIsUpMessage.enabled = true;
+    }
+    
+    private void HideTimeIsUp()
+    {
+        TimeIsUpMessage.enabled = false;
+    }
+
+    private void AddTimeToScore()
+    {
+        _totalScore = _totalScore + _maxTime - (int)Time.time + _timeStageStart;
     }
 
 }

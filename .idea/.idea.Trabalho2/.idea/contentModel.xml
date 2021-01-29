@@ -29,10 +29,12 @@
           <e p="GameControllers" t="Include">
             <e p="CameraMove.cs" t="Include" />
             <e p="GridController.cs" t="Include" />
+            <e p="IsPaused.cs" t="Include" />
             <e p="MapController.cs" t="Include" />
             <e p="MenuController.cs" t="Include" />
             <e p="SceneOptions.cs" t="Include" />
             <e p="Stage.cs" t="Include" />
+            <e p="TitleScreen.cs" t="Include" />
           </e>
           <e p="Helpers" t="Include">
             <e p="dIRECTION.cs" t="Include" />

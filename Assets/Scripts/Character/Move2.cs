@@ -22,19 +22,26 @@ public class Move2 : MonoBehaviour
     public bool DontMove;
 
     private Vector2 _velocity;
-   
+
+    private bool _isPaused;
+
+    private MenuController _menuController;
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _target = new Vector2(transform.position.x, transform.position.y);
         _velocity = new Vector2(0f,0f);
         DontMove = false;
+        _menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+
 
     }
 
     void Update()
     {
-        if (!DontMove)
+        
+        if (!_menuController.StopMove)
         {
             Vector2 characterPosition = VectorTransformer.Vector3ToVector2(transform.position);
 

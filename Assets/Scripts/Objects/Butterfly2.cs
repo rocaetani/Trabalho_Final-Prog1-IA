@@ -194,48 +194,6 @@ public class Butterfly2 : MonoBehaviour
         return points;
     }
     
-    /*
-
-    private bool IsNeighborOf(Vector2Int position, Vector2Int neighbor)
-    {
-        if ((position + Vector2Int.left).Equals(neighbor))
-        {
-            return true;
-        }
-        if (position + Vector2Int.right == neighbor)
-        {
-            return true;
-        }
-        if (position + Vector2Int.down == neighbor)
-        {
-            return true;
-        }
-        if (position + Vector2Int.up == neighbor)
-        {
-            return true;
-        }
-        
-        if (position + Vector2Int.down + Vector2Int.left == neighbor)
-        {
-            return true;
-        }
-        if (position + Vector2Int.down + Vector2Int.right== neighbor)
-        {
-            return true;
-        }
-        
-        if (position + Vector2Int.up + Vector2Int.left == neighbor)
-        {
-            return true;
-        }
-        if (position + Vector2Int.up + Vector2Int.right== neighbor)
-        {
-            return true;
-        }
-
-        return false;
-    }
-    */
     private bool IsNeighborOf(Vector2Int position, Vector2Int neighbor)
     {
         if (Mathf.Abs(position.x - neighbor.x) > 1 || Mathf.Abs(position.y - neighbor.y) > 1)

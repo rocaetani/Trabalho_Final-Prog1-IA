@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Diamond : MonoBehaviour
 {
+
+    public GameObject prefabExit;
     private GameObject _character;
     private GridController _gridController;
     private MenuController _menuController;
+    private SpriteRenderer _spriteRenderer;
     
     // Start is called before the first frame update
     void Start()
@@ -15,6 +18,7 @@ public class Diamond : MonoBehaviour
         _menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
         _gridController = transform.parent.GetComponent<GridController>();
         _character = GameObject.FindGameObjectWithTag("Character");
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -61,10 +65,24 @@ public class Diamond : MonoBehaviour
 
     private void GetDiamond()
     {
-        _menuController.PickDiamond();
+        if (_menuController.PickDiamond())
+        {
+            StartCoroutine(ExitLabel());
+        }
+
         Vector2Int objectPosition = VectorTransformer.Vector3ToVector2Int(transform.position);
         _gridController.RemoveObject(objectPosition);
+        _spriteRenderer.enabled = false;
+
+    }
+
+    IEnumerator ExitLabel()
+    {
+        GameObject exitLabel = Instantiate(prefabExit, transform.position + Vector3.up, Quaternion.identity);
+        yield return new WaitForSeconds(0.3f);
+        Destroy(exitLabel);
         Destroy(gameObject);
+
     }
 
     /*
