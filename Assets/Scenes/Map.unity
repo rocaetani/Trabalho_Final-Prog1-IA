@@ -282,10 +282,10 @@ RectTransform:
   m_Father: {fileID: 2009683136}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.3997606, y: 0.712}
+  m_AnchorMin: {x: 0.38281146, y: 0.7225634}
   m_AnchorMax: {x: 0.635479, y: 0.77000004}
-  m_AnchoredPosition: {x: -24.599998, y: -5.199997}
-  m_SizeDelta: {x: 66, y: 21}
+  m_AnchoredPosition: {x: -26.3, y: -8.199997}
+  m_SizeDelta: {x: 40.6, y: 27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172267386
 MonoBehaviour:
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 52.313744, y: 0, z: 2.722426, w: 20.680046}
+  m_margin: {x: 55.767826, y: 23.027058, z: 2.722426, w: 20.680046}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -480,7 +480,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d19ff1099e7433e4db6c7f2965c807b3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -980,10 +980,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded59be25d64ef24b9981c776d0aee87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diamondsNeeded: 1
-  maxTime: 10
-  firstDiamondScore: 20
-  secondDiamondScore: 60
+  diamondsNeeded: 10
+  maxTime: 120
+  firstDiamondScore: 10
+  secondDiamondScore: 20
 --- !u!95 &545544731
 Animator:
   serializedVersion: 3
