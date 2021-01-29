@@ -10,6 +10,10 @@ public class Diamond : MonoBehaviour
     private GridController _gridController;
     private MenuController _menuController;
     private SpriteRenderer _spriteRenderer;
+    private Collider2D _collider2D;
+    private bool _diamondGot;
+    private Rock2 _rock;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -19,6 +23,9 @@ public class Diamond : MonoBehaviour
         _gridController = transform.parent.GetComponent<GridController>();
         _character = GameObject.FindGameObjectWithTag("Character");
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _collider2D = GetComponent<Collider2D>();
+        _diamondGot = false;
+        _rock = GetComponent<Rock2>();
     }
 
     // Update is called once per frame
@@ -65,15 +72,20 @@ public class Diamond : MonoBehaviour
 
     private void GetDiamond()
     {
-        if (_menuController.PickDiamond())
+        if (!_diamondGot)
         {
-            StartCoroutine(ExitLabel());
+            _diamondGot = true;
+            if (_menuController.PickDiamond())
+            {
+                StartCoroutine(ExitLabel());
+            }
+
+            Vector2Int objectPosition = VectorTransformer.Vector3ToVector2Int(transform.position);
+            _gridController.RemoveObject(objectPosition);
+            _spriteRenderer.enabled = false;
+            _collider2D.enabled = false;
+            _rock.enabled = false;
         }
-
-        Vector2Int objectPosition = VectorTransformer.Vector3ToVector2Int(transform.position);
-        _gridController.RemoveObject(objectPosition);
-        _spriteRenderer.enabled = false;
-
     }
 
     IEnumerator ExitLabel()

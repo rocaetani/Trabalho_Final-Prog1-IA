@@ -56,6 +56,7 @@ public class PushRock : MonoBehaviour
         if (Input.GetAxis("Horizontal")  <= -1f)
         {
             Vector2Int positionLeft = position + Vector2Int.left;
+            
             if(CanBePushed(positionLeft, Direction.Left))
                 //if(_gridController.HasGridObjectAt(positionLeft) & _gridController.CellIsEmpty(positionLeft + Vector2Int.left) )
             {

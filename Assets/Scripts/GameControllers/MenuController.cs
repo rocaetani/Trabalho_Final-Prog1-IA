@@ -209,6 +209,7 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Map");
         HideGameOver();
         HideTimeIsUp();
+        DiamondsPanel.color = Color.white;
         StopMove = false;
     }
 

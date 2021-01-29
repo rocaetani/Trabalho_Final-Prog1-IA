@@ -53,7 +53,6 @@ public class GridController : MonoBehaviour
     void Update()
     {
         characterPosition = VectorTransformer.Vector3ToVector2Int(character.transform.position);
-        showList();
     }
 
     public void AddObjectToGrid(Transform newObject)

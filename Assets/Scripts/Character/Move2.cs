@@ -130,7 +130,6 @@ public class Move2 : MonoBehaviour
     private void OnCollisionStay2D(Collision2D other)
     {
         _movingDirection = Direction.None;
-        Debug.Log("Está Colidinddo");
     }
 
     private void OnCollision2D(Collision2D collision)

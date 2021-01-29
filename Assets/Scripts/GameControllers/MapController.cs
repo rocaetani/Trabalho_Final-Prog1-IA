@@ -76,7 +76,9 @@ public class MapController : MonoBehaviour
 
     private void EnterStage()
     {
+        
         Stage stage = _stageList[_selectorIndex];
+        Debug.Log("" + stage.name);
         _menuController.NewScene(stage.SceneName, stage.sceneOptions, _selectorIndex);
     }
 

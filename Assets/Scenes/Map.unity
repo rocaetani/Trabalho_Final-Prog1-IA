@@ -3422,8 +3422,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diamondsNeeded: 8
   maxTime: 150
-  firstDiamondScore: 10
-  secondDiamondScore: 20
+  firstDiamondScore: 20
+  secondDiamondScore: 50
 --- !u!95 &2087413130
 Animator:
   serializedVersion: 3
