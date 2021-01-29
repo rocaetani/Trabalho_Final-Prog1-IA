@@ -46,7 +46,7 @@ public class Rock2 : MonoBehaviour
         if (_gridController.HasGridObjectAt(downPosition)) 
         {
             Transform downObject = _gridController.GetObject(downPosition);
-            if (downObject.CompareTag("SlideObject"))//verifica se o de baixo é slider
+            if (downObject.CompareTag("SlideObject") || downObject.CompareTag("Rock"))//verifica se o de baixo é slider
             {
                 if (!_gridController.HasNextFreeSpace(objectPosition,Direction.Down))
                 {
@@ -77,7 +77,7 @@ public class Rock2 : MonoBehaviour
         {
             if (!_startFallFrom.Equals(VectorTransformer.NullPoint) & _startFallFrom.y > _gridController.characterPosition.y + 1)
             {
-                _gridController.character.GetComponent<Lose>().InstantiateLost();
+                _gridController.character.GetComponent<Lose>().StageLose();
             }
         }
     }

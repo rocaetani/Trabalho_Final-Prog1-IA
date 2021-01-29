@@ -74,6 +74,19 @@ public static class VectorTransformer
         return Mathf.Abs(fromPosition.x - toPosition.x) + Mathf.Abs(fromPosition.y - toPosition.y);
     }
 
+    public static Vector2Int DirectionToVector2Int(Vector2Int position, Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Right: return position + Vector2Int.right;
+            case Direction.Left: return position + Vector2Int.left;
+            case Direction.Up: return position + Vector2Int.up;
+            case Direction.Down: return position + Vector2Int.down;
+        }
+      
+        return Vector2Int.zero;
+    }
+
 
 
 }

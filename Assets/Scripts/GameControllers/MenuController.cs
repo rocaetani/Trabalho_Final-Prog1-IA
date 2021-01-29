@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -13,7 +14,17 @@ public class MenuController : MonoBehaviour
     public TMP_Text DiamondsText;
     public TMP_Text TimeText;
     public TMP_Text ScoreText;
+    public RawImage GameOverMessage;
+    public RawImage PauseMessage;
+    
 
+    //Stage Parameters
+    public List<int> StagesCleared;
+    private int _currentStage;
+
+    //Life Parameters
+    public int life;
+    
     //Score Parameters
     private int _totalScore;
     private int _firstDiamondScore;
@@ -21,23 +32,28 @@ public class MenuController : MonoBehaviour
 
     //Diamond Parameters
     private int _diamondsLeft;
-    
+
     //Time Parameters
     private int _maxTime;
     private int _timeStageStart;
 
     //Control Parameters
-    public String _isInScene;
-    private bool _nextSceneControl;
+    public String IsInScene;
+    //private bool _nextSceneControl;
+    private bool _isPaused;
     
     void Start()
     {
+        StagesCleared = new List<int>();
+        life = 3;
         _maxTime = 180;
         _diamondsLeft = 10;
-        _nextSceneControl = true;
+        //_nextSceneControl = true;
         _timeStageStart = 0;
         _menuCanvas = GetComponent<Canvas>();
-        _isInScene = "Map";
+        IsInScene = "Map";
+        _isPaused = false;
+        _currentStage = 0;
     }
     
     void Awake() {
@@ -46,14 +62,6 @@ public class MenuController : MonoBehaviour
     
     void Update()
     {
-        //If is a Stage Load SceneOptions once
-        /*
-        if (_nextSceneControl & !_isInScene.Equals("Map"))
-        {
-            _nextSceneControl = false;
-            //LoadSceneOptions();
-        }
-        */
         
         //Calculate Time Laft
         int timeRemaining = _maxTime - (int)Time.time + _timeStageStart;
@@ -66,9 +74,9 @@ public class MenuController : MonoBehaviour
         
         
         //Show values on Menu
-        TimeText.text = timeRemaining.ToString().PadLeft(3,'0');
-        DiamondsText.text = _diamondsLeft.ToString().PadLeft(3,'0');
-        ScoreText.text = _totalScore.ToString().PadLeft(6,'0');
+        TimeText.text = TransformToSpriteAsset(timeRemaining.ToString().PadLeft(3,'0'));
+        DiamondsText.text = TransformToSpriteAsset(_diamondsLeft.ToString().PadLeft(3,'0'));
+        ScoreText.text = TransformToSpriteAsset(_totalScore.ToString().PadLeft(6,'0'));
         
         //Test
         if (Input.GetKey(KeyCode.A))
@@ -78,6 +86,19 @@ public class MenuController : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
         {
             Lose();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (_isPaused)
+            {
+                UnPause();
+            }
+            else
+            {
+                Pause();
+            }
+
         }
     }
     
@@ -112,10 +133,11 @@ public class MenuController : MonoBehaviour
         _totalScore = _totalScore + value;
     }
 
-    public void NewScene(String sceneName, SceneOptions newSceneOption)
+    public void NewScene(String sceneName, SceneOptions newSceneOption, int newStage)
     {
+        _currentStage = newStage;
         _menuCanvas.enabled = true;
-        _isInScene = sceneName;
+        IsInScene = sceneName;
         SceneManager.LoadScene(sceneName);
         //_nextSceneControl = true;
         LoadSceneOptions(newSceneOption);
@@ -123,21 +145,30 @@ public class MenuController : MonoBehaviour
 
     public void Win()
     {
-        Debug.Log("Win");
+        StagesCleared.Add(_currentStage);
+
         GoToMap();
     }
 
     public void Lose()
     {
         Debug.Log("Lose");
-        GoToMap();
+        if (life == 0)
+        {
+            //Game Over
+            ShowGameOver();
+        }
+
+        life = life - 1;
+        StartCoroutine(WaitGotoMap(3f));
     }
 
     public void GoToMap()
     {
-        _isInScene = "Map";
+        IsInScene = "Map";
         //_menuCanvas.enabled = false;
         SceneManager.LoadScene("Map");
+        HideGameOver();
     }
 
     private void LoadSceneOptions(SceneOptions newSceneOption)
@@ -157,4 +188,67 @@ public class MenuController : MonoBehaviour
         _timeStageStart = (int)Time.time;
         
     }
+
+    private void ShowGameOver()
+    {
+        GameOverMessage.enabled = true;
+    }
+    
+    private void HideGameOver()
+    {
+        GameOverMessage.enabled = false;
+    }
+    
+    
+    
+    IEnumerator WaitGotoMap(float timeSeconds)
+    {
+
+        yield return new WaitForSeconds(timeSeconds);
+        GoToMap();
+ 
+
+    }
+
+    private String TransformToSpriteAsset(String text)
+    {
+        char[] charArr = text.ToCharArray();
+        String textReturn = "";
+        foreach (char value in charArr)
+        {
+            textReturn = textReturn + "<sprite index=[" + value + "]>";
+        }
+
+        return textReturn;
+    }
+
+    public int DiamondsLeft()
+    {
+        return _diamondsLeft;
+    }
+
+    private void Pause()
+    {
+        _isPaused = true;
+        ShowPause();
+        Time.timeScale = 0;
+    }
+
+    private void UnPause()
+    {
+        HidePause();
+        Time.timeScale = 1;
+        _isPaused = false;
+    }
+    
+    private void ShowPause()
+    {
+        PauseMessage.enabled = true;
+    }
+    
+    private void HidePause()
+    {
+        PauseMessage.enabled = false;
+    }
+
 }

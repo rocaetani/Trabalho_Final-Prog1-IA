@@ -251,4 +251,49 @@ public class GridController : MonoBehaviour
     {
         _gridObjects.Remove(fromPosition);
     }
+
+    public void DestroyObjectAt(Vector2Int position)
+    {
+        if (HasGridObjectAt(position))
+        {
+            
+            RemoveObject(position);
+            
+        }
+
+        Vector3Int positionVector3Int = VectorTransformer.Vector2IntToVector3Int(position);
+        foreach (Tilemap tilemap in _tilemapList)
+        {
+            if (tilemap.HasTile(positionVector3Int))
+            {
+                tilemap.SetTile(positionVector3Int, null);
+            }
+        }
+        
+    }
+
+    public int VerifyNeighbor(Vector2Int position)
+    {
+        int neighborCount = 0;
+        if (!CellIsEmptyWithoutCharacter(position + Vector2Int.left))
+        {
+            neighborCount = neighborCount + 1;
+        }
+        if (!CellIsEmptyWithoutCharacter(position + Vector2Int.right))
+        {
+            neighborCount = neighborCount + 1;
+        }
+        if (!CellIsEmptyWithoutCharacter(position + Vector2Int.up))
+        {
+            neighborCount = neighborCount + 1;
+        }
+        if (!CellIsEmptyWithoutCharacter(position + Vector2Int.down))
+        {
+            neighborCount = neighborCount + 1;
+        }
+
+        return neighborCount;
+    }
+
+    
 }

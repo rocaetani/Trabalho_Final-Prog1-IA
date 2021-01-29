@@ -10,6 +10,8 @@ TagManager:
   - MenuController
   - Score
   - SceneOptions
+  - Rock
+  - GridController
   layers:
   - Default
   - TransparentFX

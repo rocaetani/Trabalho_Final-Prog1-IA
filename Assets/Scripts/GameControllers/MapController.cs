@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MapController : MonoBehaviour
@@ -12,6 +13,14 @@ public class MapController : MonoBehaviour
     private int _selectorIndex;
 
     private MenuController _menuController;
+
+    public Canvas StageEntry;
+
+    public TMP_Text LifeText;
+
+    public TMP_Text StageText;
+
+    private bool _stageSelected;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +31,13 @@ public class MapController : MonoBehaviour
             _stageList.Add(stage);
         }
 
+        foreach (var stageIndex in _menuController.StagesCleared)
+        {
+            _stageList[stageIndex].GetComponentInParent<SpriteRenderer>().enabled = false;
+        }
+
         _selectorIndex = 0;
+        _stageSelected = false;
     }
 
     // Update is called once per frame
@@ -45,21 +60,24 @@ public class MapController : MonoBehaviour
             VerifySelection(Direction.Left);
         }
 
-        if (Input.GetButton("Submit1") & _selectorIndex != 0)
-        {
-            EnterStage();
 
-        }
-        if (Input.GetKey(KeyCode.X) & _selectorIndex != 0)
+        if (Input.GetKeyDown(KeyCode.X) & _selectorIndex != 0)
         {
-            EnterStage();
+            if(!_stageSelected){
+                SelectStage();
+            }
+            else
+            {
+                EnterStage();
+            }
+            
         }
     }
 
     private void EnterStage()
     {
         Stage stage = _stageList[_selectorIndex];
-        _menuController.NewScene(stage.SceneName, stage.sceneOptions);
+        _menuController.NewScene(stage.SceneName, stage.sceneOptions, _selectorIndex);
     }
 
     private void VerifySelection(Direction direction)
@@ -79,5 +97,21 @@ public class MapController : MonoBehaviour
     private void MoveSelector(int stageIndex)
     {
         Selector.position = _stageList[stageIndex].position;
+    }
+
+
+    private void SelectStage()
+    {
+        SetStageInfo();
+        StageEntry.enabled = true;
+        _stageSelected = true;
+
+    }
+
+    private void SetStageInfo()
+    {
+        LifeText.text = "<sprite index=[40]>    <sprite index=[" + _menuController.life + "]>  ";
+        StageText.text = "<sprite index=[" + _selectorIndex.ToString() + "]>";
+
     }
 }
